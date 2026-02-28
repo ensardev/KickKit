@@ -20,7 +20,7 @@ A Chrome extension that enhances your [Kick.com](https://kick.com) experience wi
 - **Word filter** — hide or blur messages containing specific words (whole-word mode, Unicode/Turkish safe)
 - **User filter** — hide or blur messages from specific usernames
 - **Bot command filter** — hide messages starting with `!`
-- **Emoji/emote spam filter** — hide or blur messages with 5+ emotes/emojis
+- **Emoji/emote spam filter** — hide or blur messages with emotes/emojis
 - **Filter mode toggle** — choose between *Hide* (remove entirely) or *Blur* (blur with hover-to-reveal)
 - **Keyword highlight** — highlight messages that match keywords with a green accent border
 - **Font size control** — adjust chat font size (10–20px)
