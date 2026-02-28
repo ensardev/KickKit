@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KickKit</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="brand">
+      <img class="logo" src="../icons/icon128.png" alt="KickKit">
+      <div class="brand-text">
+        <span class="title">KickKit</span>
+        <a class="subtitle subtitle-link" href="https://ensar.dev" target="_blank">by ensardev</a>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="hdr-btn" id="btn-multistream" data-i18n-title="btn_multi_tooltip">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="9" height="8" rx="1.5"/>
+          <rect x="13" y="3" width="9" height="8" rx="1.5"/>
+          <rect x="2" y="13" width="9" height="8" rx="1.5"/>
+          <rect x="13" y="13" width="9" height="8" rx="1.5"/>
+        </svg>
+        <span data-i18n="btn_multi_label">Multi</span>
+      </button>
+      <button class="hdr-btn" id="btn-settings" data-i18n-title="btn_settings_label">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <span data-i18n="btn_settings_label">Ayarlar</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="add-row">
+    <div class="input-wrap">
+      <svg class="input-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="input-slug" class="slug-input"
+             data-i18n-ph="input_slug_ph"
+             placeholder="Kanal adı ara veya ekle…" maxlength="64"
+             autocomplete="off" spellcheck="false">
+    </div>
+    <button class="add-btn" id="btn-add">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      <span data-i18n="btn_add">Ekle</span>
+    </button>
+  </div>
+
+  <nav class="group-tabs" id="group-tabs"></nav>
+
+  <main class="channel-list" id="channel-list">
+    <div class="empty-state" id="empty-state">
+      <div class="empty-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.5C5.12 20 12 20 12 20s6.88 0 8.59-.5a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+          <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+        </svg>
+      </div>
+      <p data-i18n="empty_no_channels">Henüz kanal eklenmedi</p>
+      <p class="hint" data-i18n="empty_hint">Kick kanal adını yazıp Ekle'ye basın</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-stats">
+      <span class="live-pip"></span>
+      <span id="stat-live">0 canlı</span>
+      <span class="stat-sep">·</span>
+      <span id="stat-total">0 kanal</span>
+    </div>
+    <button class="refresh-btn" id="btn-refresh" data-i18n-title="btn_refresh">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"/>
+        <polyline points="1 20 1 14 7 14"/>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+      </svg>
+      <span data-i18n="btn_refresh">Yenile</span>
+    </button>
+  </footer>
+
+  <div class="footer-credits">
+    <a href="https://extensions.ensar.dev" target="_blank" class="credit-link">Extensions</a>
+    <a href="#" target="_blank" class="credit-link">GitHub</a>
+  </div>
+
+  <div class="settings-panel" id="settings-panel" hidden>
+
+    <div class="settings-header">
+      <button class="icon-btn back-btn" id="btn-settings-close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        <span data-i18n="settings_back">Geri</span>
+      </button>
+      <span class="settings-title" data-i18n="settings_title">Ayarlar</span>
+    </div>
+
+    <div class="stab-row">
+      <button class="stab active" data-tab="groups">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <span data-i18n="stab_groups">Gruplar</span>
+      </button>
+      <button class="stab" data-tab="chat">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span data-i18n="stab_chat">Chat</span>
+      </button>
+      <button class="stab" data-tab="users">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span data-i18n="stab_users">Kullanıcılar</span>
+      </button>
+      <button class="stab" data-tab="general">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <span data-i18n="stab_general">Genel</span>
+      </button>
+    </div>
+
+    <div class="stab-body">
+
+      <div class="stab-content" id="tab-groups">
+        <div class="filter-add">
+          <input type="text" id="input-group" data-i18n-ph="group_new_ph" placeholder="Yeni grup adı…" maxlength="32">
+          <button id="btn-group-add" class="small-btn">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            <span data-i18n="btn_group_create">Oluştur</span>
+          </button>
+        </div>
+        <div id="groups-with-channels">
+          <p class="tab-hint" data-i18n="group_tab_hint">Grup oluşturun ve kanalları atayın.</p>
+        </div>
+      </div>
+
+      <div class="stab-content tab-hidden" id="tab-chat">
+
+        <div class="filter-section">
+          <div class="filter-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="9" y1="18" x2="15" y2="18"/></svg>
+            <span data-i18n="chat_word_title">Kelime Filtresi</span>
+          </div>
+          <div class="filter-hint" data-i18n="chat_word_hint">Bu kelimeleri içeren mesajlar gizlenir.</div>
+          <div class="filter-add">
+            <input type="text" id="input-word" data-i18n-ph="chat_word_ph" placeholder="Engellenecek kelime…">
+            <button id="btn-word-add" class="small-btn" data-i18n="btn_add">Ekle</button>
+          </div>
+          <div id="word-chips" class="chip-list"></div>
+        </div>
+
+        <div class="filter-section">
+          <div class="filter-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span data-i18n="chat_user_title">Kullanıcı Filtresi</span>
+          </div>
+          <div class="filter-hint" data-i18n="chat_user_hint">Bu kullanıcıların mesajları gizlenir.</div>
+          <div class="filter-add">
+            <input type="text" id="input-user-filter" data-i18n-ph="chat_user_ph" placeholder="Engellenecek kullanıcı…">
+            <button id="btn-user-add" class="small-btn" data-i18n="btn_add">Ekle</button>
+          </div>
+          <div id="user-chips" class="chip-list"></div>
+        </div>
+
+        <div class="toggle-section">
+          <label class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-label" data-i18n="toggle_filter_mode">Filtre modu</div>
+              <div class="toggle-sub" data-i18n="toggle_filter_mode_sub">Filtrelenen mesajları gizle veya bulanıklaştır</div>
+            </div>
+            <div class="filter-mode-ctrl">
+              <span id="filter-mode-label" class="filter-mode-label">Gizle</span>
+              <span class="sw sw--fmode"><input type="checkbox" id="chk-filter-mode"><span class="sw-track"><span class="sw-thumb"></span></span></span>
+            </div>
+          </label>
+          <label class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-label" data-i18n="toggle_word_mode">Tam kelime eşleşmesi</div>
+              <div class="toggle-sub" data-i18n="toggle_word_mode_sub">Açık: "biz" filtresi "bizden"i engellemez</div>
+            </div>
+            <span class="sw"><input type="checkbox" id="chk-word-mode" checked><span class="sw-track"><span class="sw-thumb"></span></span></span>
+          </label>
+          <label class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-label" data-i18n="toggle_filter_bots">Bot komutlarını gizle</div>
+              <div class="toggle-sub" data-i18n="toggle_filter_bots_sub">! ile başlayan mesajlar</div>
+            </div>
+            <span class="sw"><input type="checkbox" id="chk-filter-bots"><span class="sw-track"><span class="sw-thumb"></span></span></span>
+          </label>
+          <label class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-label" data-i18n="toggle_filter_emoji">Emoji spam gizle</div>
+              <div class="toggle-sub" data-i18n="toggle_filter_emoji_sub">Tek mesajda 5+ emoji</div>
+            </div>
+            <span class="sw"><input type="checkbox" id="chk-filter-emoji"><span class="sw-track"><span class="sw-thumb"></span></span></span>
+          </label>
+          <div class="emoji-threshold-row" id="emoji-threshold-row" style="display:none">
+            <div class="toggle-info">
+              <div class="toggle-label" data-i18n="popup_emoji_threshold">Eşik</div>
+            </div>
+            <div class="font-ctrl">
+              <button type="button" id="btn-emoji-dec" class="size-btn">−</button>
+              <span id="emoji-threshold-val">5</span>
+              <button type="button" id="btn-emoji-inc" class="size-btn">+</button>
+            </div>
+          </div>
+          <label class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-label" data-i18n="toggle_timestamp">Zaman damgası</div>
+              <div class="toggle-sub" data-i18n="toggle_timestamp_sub">Her mesajda saat göster</div>
+            </div>
+            <span class="sw"><input type="checkbox" id="chk-timestamp"><span class="sw-track"><span class="sw-thumb"></span></span></span>
+          </label>
+          <label class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-label" data-i18n="toggle_compact">Compact mod</div>
+              <div class="toggle-sub" data-i18n="toggle_compact_sub">Mesajlar arası boşluğu azalt</div>
+            </div>
+            <span class="sw"><input type="checkbox" id="chk-compact"><span class="sw-track"><span class="sw-thumb"></span></span></span>
+          </label>
+        </div>
+
+        <div class="font-size-row">
+          <div class="toggle-info">
+            <div class="toggle-label" data-i18n="font_size_label">Chat font boyutu</div>
+            <div class="toggle-sub" data-i18n="font_size_sub">Varsayılan: 13px</div>
+          </div>
+          <div class="font-ctrl">
+            <button id="btn-font-dec" class="size-btn">−</button>
+            <span id="font-size-val">13</span><span class="px-label">px</span>
+            <button id="btn-font-inc" class="size-btn">+</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stab-content tab-hidden" id="tab-general">
+        <label class="setting-row">
+          <div class="toggle-info">
+            <div class="toggle-label" data-i18n="general_lang_label">Dil</div>
+            <div class="toggle-sub" data-i18n="general_lang_sub">Arayüz dilini seçin</div>
+          </div>
+          <select id="sel-lang">
+            <option value="tr">Türkçe</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+            <option value="pt-BR">Português (Brasil)</option>
+            <option value="ru">Русский</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+            <option value="zh-CN">简体中文</option>
+            <option value="ar">العربية</option>
+          </select>
+        </label>
+        <label class="setting-row">
+          <div class="toggle-info">
+            <div class="toggle-label" data-i18n="general_poll_label">Poll aralığı</div>
+            <div class="toggle-sub" data-i18n="general_poll_sub">Kanal durumu kontrol sıklığı</div>
+          </div>
+          <select id="sel-poll">
+            <option value="30" data-i18n="poll_30s">30 sn</option>
+            <option value="60" selected data-i18n="poll_60s">60 sn</option>
+            <option value="120" data-i18n="poll_2m">2 dk</option>
+          </select>
+        </label>
+        <label class="setting-row">
+          <div class="toggle-info">
+            <div class="toggle-label" data-i18n="general_sound_label">Bildirim sesi</div>
+            <div class="toggle-sub" data-i18n="general_sound_sub">Kanal canlıya geçince ses çal</div>
+          </div>
+          <span class="sw"><input type="checkbox" id="chk-sound" checked><span class="sw-track"><span class="sw-thumb"></span></span></span>
+        </label>
+        <label class="setting-row">
+          <div class="toggle-info">
+            <div class="toggle-label" data-i18n="dnd_label">Rahatsız etme saatleri</div>
+            <div class="toggle-sub" data-i18n="dnd_sub">Bu saatlerde bildirim gönderilmez</div>
+          </div>
+          <span class="sw"><input type="checkbox" id="chk-dnd"><span class="sw-track"><span class="sw-thumb"></span></span></span>
+        </label>
+        <div class="dnd-time-row" id="dnd-time-row" hidden>
+          <span data-i18n="dnd_from">Başlangıç</span>
+          <select id="sel-dnd-start"></select>
+          <span data-i18n="dnd_to">Bitiş</span>
+          <select id="sel-dnd-end"></select>
+        </div>
+      </div>
+
+      <div class="stab-content tab-hidden" id="tab-users">
+
+        <div class="ustab-row">
+          <button class="ustab active" data-ustab="favs">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span data-i18n="users_tab_favs">Favoriler</span>
+          </button>
+          <button class="ustab" data-ustab="blocked">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            <span data-i18n="users_tab_blocked">Engelliler</span>
+          </button>
+        </div>
+
+        <div class="ustab-content" id="ustab-favs">
+          <div id="fav-user-list" class="user-list"></div>
+        </div>
+
+        <div class="ustab-content ustab-hidden" id="ustab-blocked">
+          <div id="blocked-user-list" class="user-list"></div>
+        </div>
+
+      </div>
+
+    </div><!-- /stab-body -->
+  </div><!-- /settings-panel -->
+
+  <script src="../src/i18n.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

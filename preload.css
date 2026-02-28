@@ -1,0 +1,1043 @@
+/*
+ * KickKit — Preload CSS
+ * document_start'ta inject edilir, tema flashını önler.
+ * Sadece html.ke-active olduğunda geçerli olur.
+ */
+
+html.ke-active {}
+
+html.ke-active.ke-theme-midnight {
+  --ke-bg: #0d0d0d;
+  --ke-surface: #161616;
+  --ke-border: #2a2a2a;
+  --ke-text: #e8e8e8;
+  --ke-accent: #53FC18;
+  --ke-accent-hover: #3dd912;
+}
+
+html.ke-active.ke-theme-nordic {
+  --ke-bg: #1e2029;
+  --ke-surface: #252836;
+  --ke-border: #373a52;
+  --ke-text: #d8dee9;
+  --ke-accent: #88c0d0;
+  --ke-accent-hover: #81b5c5;
+}
+
+html.ke-active.ke-theme-amoled {
+  --ke-bg: #000000;
+  --ke-surface: #0a0a0a;
+  --ke-border: #1a1a1a;
+  --ke-text: #ffffff;
+  --ke-accent: #53FC18;
+  --ke-accent-hover: #3dd912;
+}
+
+/* Filtrelenmiş chat mesajları — React inline style override'ına karşı CSS class bazlı gizleme */
+html.ke-active .ke-filtered-bot,
+html.ke-active .ke-filtered-word,
+html.ke-active .ke-filtered-user,
+html.ke-active .ke-filtered-emote {
+  display: none !important;
+}
+
+/* Blur filtresi — kelime/kullanıcı/bot/emote, filterAction=blur modunda */
+html.ke-active .ke-filtered-blur {
+  filter: blur(5px);
+  opacity: 0.45;
+  transition: filter 0.25s ease, opacity 0.25s ease;
+  cursor: pointer;
+}
+html.ke-active .ke-filtered-blur:hover {
+  filter: none;
+  opacity: 1;
+}
+
+/* Emoji/emote spam — bulanık, hover ile açılır */
+html.ke-active .ke-emoji-spam {
+  filter: blur(5px);
+  opacity: 0.45;
+  transition: filter 0.25s ease, opacity 0.25s ease;
+  cursor: pointer;
+}
+html.ke-active .ke-emoji-spam:hover {
+  filter: none;
+  opacity: 1;
+}
+
+/* KE In-Chat Settings Panel */
+html.ke-active #ke-chat-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #fff;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+html.ke-active #ke-chat-btn:hover {
+  background: rgba(255,255,255,0.1);
+}
+html.ke-active #ke-chat-btn.ke-active-btn {
+  background: rgba(83,252,24,0.15);
+  color: #53FC18;
+}
+html.ke-active #ke-chat-panel {
+  position: fixed;
+  width: 340px;
+  max-height: 560px;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  background: #06090f;
+  background-image:
+    radial-gradient(ellipse 62% 55% at 8% 10%, rgba(100,50,255,0.18) 0%, transparent 56%),
+    radial-gradient(ellipse 50% 44% at 88% 84%, rgba(83,252,24,0.11) 0%, transparent 52%),
+    radial-gradient(ellipse 44% 40% at 74% 16%, rgba(0,140,255,0.11) 0%, transparent 50%);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 14px;
+  padding: 0;
+  z-index: 99999;
+  color: #e9edf6;
+  font-size: 13px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  box-shadow: 0 16px 56px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+html.ke-active #ke-chat-panel.ke-open {
+  display: flex;
+}
+html.ke-active #ke-chat-panel h3 {
+  margin: 0;
+  padding: 13px 15px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  color: #53FC18;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.034);
+  border-radius: 14px 14px 0 0;
+  position: relative;
+}
+html.ke-active #ke-chat-panel h3::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 15px;
+  right: 15px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(83,252,24,0.20), transparent);
+}
+/* Content wrapper — sadece bu kısım scroll edilir, header sabit kalır */
+html.ke-active #ke-chat-panel .kp-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(83,252,24,0.12) transparent;
+}
+html.ke-active #ke-chat-panel .kp-content::-webkit-scrollbar { width: 4px; }
+html.ke-active #ke-chat-panel .kp-content::-webkit-scrollbar-track { background: transparent; }
+html.ke-active #ke-chat-panel .kp-content::-webkit-scrollbar-thumb {
+  background: rgba(83,252,24,0.15);
+  border-radius: 4px;
+}
+html.ke-active #ke-chat-panel .kp-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(83,252,24,0.25);
+}
+/* flex-shrink:0 — içindeki kartların yükseklik kısıtı altında sıkışmasını önler */
+html.ke-active #ke-chat-panel .kp-content > * {
+  flex-shrink: 0;
+}
+html.ke-active #ke-chat-panel .kp-card {
+  background: rgba(255,255,255,0.044);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+html.ke-active #ke-chat-panel .kp-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  pointer-events: none;
+}
+html.ke-active #ke-chat-panel .kp-section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(233,237,246,0.35);
+  padding: 2px 2px 0;
+}
+html.ke-active #ke-chat-panel .kp-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 13px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  transition: background 0.15s, border-color 0.15s;
+}
+html.ke-active #ke-chat-panel .kp-row:last-child { border-bottom: none; }
+html.ke-active #ke-chat-panel .kp-row:hover { background: rgba(255,255,255,0.055); }
+html.ke-active #ke-chat-panel .kp-row-info { flex: 1; min-width: 0; }
+html.ke-active #ke-chat-panel .kp-row-label {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 2px;
+  line-height: 1.3;
+  color: rgba(233,237,246,0.92);
+  word-break: break-word;
+}
+html.ke-active #ke-chat-panel .kp-row-sub {
+  font-size: 10px;
+  color: rgba(233,237,246,0.35);
+  line-height: 1.3;
+}
+html.ke-active #ke-chat-panel .kp-sw {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+html.ke-active #ke-chat-panel .kp-sw input {
+  position: absolute;
+  opacity: 0;
+  width: 0; height: 0;
+}
+html.ke-active #ke-chat-panel .kp-track {
+  width: 40px; height: 23px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.22s, border-color 0.22s, box-shadow 0.22s;
+}
+html.ke-active #ke-chat-panel .kp-thumb {
+  position: absolute;
+  width: 17px; height: 17px;
+  background: rgba(255,255,255,0.38);
+  border-radius: 50%;
+  top: 2px; left: 2px;
+  transition: transform 0.22s cubic-bezier(.34,1.56,.64,1), background 0.22s, box-shadow 0.22s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+html.ke-active #ke-chat-panel .kp-sw input:checked + .kp-track {
+  background: rgba(83,252,24,0.22);
+  border-color: rgba(83,252,24,0.45);
+  box-shadow: 0 0 12px rgba(83,252,24,0.08);
+}
+html.ke-active #ke-chat-panel .kp-sw input:checked + .kp-track .kp-thumb {
+  transform: translateX(17px);
+  background: #53FC18;
+  box-shadow: 0 0 10px rgba(83,252,24,0.50), 0 1px 3px rgba(0,0,0,0.3);
+}
+/* Filtre modu switch (kırmızı/yeşil) */
+html.ke-active #ke-chat-panel .ke-fmode-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+html.ke-active #ke-chat-panel .ke-fmode-label {
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 28px;
+  text-align: right;
+  color: #f85149;
+  transition: color 0.22s;
+  letter-spacing: 0.1px;
+}
+html.ke-active #ke-chat-panel .kp-sw--fmode .kp-track {
+  background: rgba(248,81,73,0.18);
+  border-color: rgba(248,81,73,0.38);
+}
+html.ke-active #ke-chat-panel .kp-sw--fmode .kp-track .kp-thumb {
+  background: rgba(248,81,73,0.75);
+}
+html.ke-active #ke-chat-panel .kp-sw--fmode input:checked + .kp-track {
+  background: rgba(83,252,24,0.28);
+  border-color: rgba(83,252,24,0.50);
+}
+html.ke-active #ke-chat-panel .kp-sw--fmode input:checked + .kp-track .kp-thumb {
+  background: #53FC18;
+  box-shadow: 0 0 10px rgba(83,252,24,0.55);
+}
+html.ke-active #ke-chat-panel .kp-row-slider { cursor: default; }
+html.ke-active #ke-chat-panel .kp-font-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+html.ke-active #ke-chat-panel input[type=range] {
+  width: 72px;
+  accent-color: #53FC18;
+  cursor: pointer;
+}
+html.ke-active #ke-chat-panel .kp-font-val {
+  font-size: 12px;
+  font-weight: 700;
+  color: #53FC18;
+  min-width: 28px;
+  text-align: right;
+}
+html.ke-active #ke-chat-panel .kp-input-row {
+  display: flex;
+  gap: 6px;
+  padding: 10px 13px 0;
+}
+html.ke-active #ke-chat-panel .kp-input-row input {
+  flex: 1;
+  background: rgba(255,255,255,0.044);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 8px;
+  padding: 7px 10px;
+  color: #e9edf6;
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+html.ke-active #ke-chat-panel .kp-input-row input:focus {
+  border-color: rgba(83,252,24,0.40);
+  box-shadow: 0 0 0 3px rgba(83,252,24,0.08), inset 0 1px 0 rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.076);
+}
+html.ke-active #ke-chat-panel .kp-input-row input::placeholder {
+  color: rgba(233,237,246,0.25);
+}
+html.ke-active #ke-chat-panel .kp-add-btn {
+  background: rgba(83,252,24,0.10);
+  border: 1px solid rgba(83,252,24,0.28);
+  border-radius: 8px;
+  padding: 7px 12px;
+  color: #53FC18;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(83,252,24,0.08);
+}
+html.ke-active #ke-chat-panel .kp-add-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(83,252,24,0.06) 0%, transparent 100%);
+  pointer-events: none;
+}
+html.ke-active #ke-chat-panel .kp-add-btn:hover {
+  background: rgba(83,252,24,0.20);
+  border-color: rgba(83,252,24,0.42);
+  box-shadow: 0 0 14px rgba(83,252,24,0.14), inset 0 1px 0 rgba(83,252,24,0.12);
+  transform: translateY(-1px);
+}
+html.ke-active #ke-chat-panel .kp-add-btn:active {
+  transform: translateY(0);
+}
+html.ke-active #ke-chat-panel .kp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 13px 10px;
+}
+html.ke-active #ke-chat-panel .kp-chips:empty { padding-top: 2px; padding-bottom: 2px; }
+html.ke-active #ke-chat-panel .kp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255,255,255,0.065);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 20px;
+  padding: 3px 8px 3px 10px;
+  font-size: 11px;
+  color: rgba(233,237,246,0.68);
+  transition: all 0.15s ease;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+html.ke-active #ke-chat-panel .kp-chip:hover {
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(255,255,255,0.16);
+}
+html.ke-active #ke-chat-panel .kp-chip button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(233,237,246,0.30);
+  font-size: 13px;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.15s;
+}
+html.ke-active #ke-chat-panel .kp-chip button:hover {
+  color: #f85149;
+}
+
+/* KE Tooltip — Kick native görünüm */
+html.ke-active #ke-tooltip {
+  position: fixed;
+  background: #18181b;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  z-index: 999999;
+  pointer-events: none;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.55);
+  display: none;
+  line-height: 1.4;
+}
+html.ke-active #ke-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #18181b;
+}
+
+html.ke-active #ke-add-btn {
+  transition: background 0.15s, transform 0.12s, color 0.15s !important;
+}
+html.ke-active #ke-add-btn:hover {
+  background: rgba(255,255,255,0.12) !important;
+  transform: scale(1.1);
+}
+html.ke-active #ke-add-btn.ke-added {
+  background: rgba(83,252,24,0.18) !important;
+  color: #53FC18 !important;
+}
+html.ke-active #ke-add-btn.ke-added:hover {
+  background: rgba(255,85,85,0.18) !important;
+  color: #ff5555 !important;
+  transform: scale(1.1);
+}
+
+html.ke-active #ke-add-panel {
+  position: fixed;
+  width: 220px;
+  background: #1a1a1a;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 12px 14px 14px;
+  z-index: 99999;
+  color: #e8e8e8;
+  font-size: 13px;
+  font-family: inherit;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+html.ke-active #ke-add-panel:empty {
+  display: none;
+}
+html.ke-active .ke-ap-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #53FC18;
+  margin-bottom: 2px;
+}
+html.ke-active .ke-ap-slug {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+}
+html.ke-active .ke-ap-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+html.ke-active .ke-ap-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #c8c8c8;
+  user-select: none;
+}
+html.ke-active .ke-ap-row input[type=checkbox] {
+  accent-color: #53FC18;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+html.ke-active .ke-ap-actions {
+  display: flex;
+  gap: 6px;
+}
+html.ke-active .ke-ap-actions button {
+  flex: 1;
+  padding: 7px 12px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: #2a2a2a;
+  color: #c8c8c8;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+html.ke-active .ke-ap-actions button:hover {
+  background: #333;
+}
+html.ke-active .ke-ap-primary {
+  background: rgba(83,252,24,0.14) !important;
+  border-color: rgba(83,252,24,0.35) !important;
+  color: #53FC18 !important;
+}
+html.ke-active .ke-ap-primary:hover {
+  background: rgba(83,252,24,0.24) !important;
+}
+html.ke-active .ke-ap-cancel-x {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+html.ke-active .ke-ap-cancel-x:hover {
+  color: #ff5555;
+}
+
+html.ke-active.ke-chat-compact #chatroom-messages .break-words {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+@keyframes ke-skel-pulse {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.7; }
+}
+html.ke-active .ke-skel-block {
+  background: rgba(255,255,255,0.06);
+  border-radius: 6px;
+  animation: ke-skel-pulse 1.5s ease-in-out infinite;
+}
+html.ke-active .ke-skel-pulse {
+  animation: ke-skel-pulse 1.5s ease-in-out infinite;
+}
+html.ke-active #ke-user-ext.ke-skeleton {
+  pointer-events: none;
+}
+
+/* ── KE User Identity Card ─────────────────────────────────────────────────
+   Strateji: origCard'a (.bg-surface-highest) HİÇ dokunmuyoruz.
+   Banner-wrap → origCard (React untouched) → #ke-user-ext
+   ─────────────────────────────────────────────────────────────────────────── */
+
+html.ke-active #user-identity.ke-has-card > div {
+  gap: 0 !important;
+  background: #06090f !important;
+  background-image:
+    radial-gradient(ellipse 62% 55% at 8% 10%, rgba(100,50,255,0.18) 0%, transparent 56%),
+    radial-gradient(ellipse 50% 44% at 88% 84%, rgba(83,252,24,0.11) 0%, transparent 52%),
+    radial-gradient(ellipse 44% 40% at 74% 16%, rgba(0,140,255,0.11) 0%, transparent 50%) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.05) !important;
+  overflow: hidden !important;
+}
+
+/* Banner wrap — overflow:visible ile avatar aşağı taşabilir */
+html.ke-active .ke-uc-banner-wrap {
+  width: 100%;
+  position: relative;
+  overflow: visible;
+}
+html.ke-active .ke-uc-banner {
+  height: 95px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+  position: relative;
+}
+html.ke-active .ke-uc-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 10%, rgba(10,13,20,0.55) 50%, rgba(10,13,20,0.95) 100%);
+  pointer-events: none;
+}
+html.ke-active .ke-uc-banner-empty {
+  background: linear-gradient(135deg, #0a0d14 0%, #10141e 35%, #0e1218 65%, #0a0d12 100%);
+  border-radius: 12px 12px 0 0;
+  position: relative;
+}
+html.ke-active .ke-uc-banner-empty::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 80% 20%, rgba(83,252,24,0.10) 0%, transparent 55%),
+              radial-gradient(ellipse 60% 55% at 10% 70%, rgba(100,50,255,0.09) 0%, transparent 50%),
+              radial-gradient(ellipse 50% 50% at 50% 40%, rgba(0,140,255,0.06) 0%, transparent 60%);
+  border-radius: inherit;
+}
+
+/* Avatar — tam ortalanmış: banner/kart sınırında, yarısı her yanda */
+html.ke-active .ke-uc-avatar-row {
+  position: absolute;
+  bottom: -28px;
+  left: 14px;
+  z-index: 2;
+}
+html.ke-active .ke-uc-avatar-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.10);
+  overflow: hidden;
+  background: #1a1d24;
+  box-shadow: 0 0 0 1px rgba(83,252,24,0.14), 0 4px 16px rgba(0,0,0,0.5);
+}
+html.ke-active .ke-uc-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* origCard — banner ile seamless: glass arka plan, font, radius override */
+html.ke-active #user-identity.ke-has-card .ke-uc-banner-wrap ~ .bg-surface-highest {
+  border-radius: 0 !important;
+  padding-top: 28px !important;
+  background: rgba(255,255,255,0.032) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif !important;
+  border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+}
+html.ke-active #user-identity.ke-has-card .ke-uc-banner-wrap ~ .bg-surface-highest a.select-text {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  color: #fff !important;
+}
+
+html.ke-active #user-identity.ke-has-card .ke-uc-banner-wrap ~ .bg-surface-highest .shrink-0.overflow-hidden.rounded-full {
+  display: none !important;
+}
+
+/* Kick'in default abone süresi + takip tarihi satırını gizle (bizimki #ke-user-ext'te) */
+html.ke-active #user-identity.ke-has-card .ke-uc-banner-wrap ~ .bg-surface-highest .select-text.gap-6 {
+  display: none !important;
+}
+
+/* Kick'in default takip et + sustur buton satırını gizle */
+html.ke-active #user-identity.ke-has-card .ke-uc-banner-wrap ~ .bg-surface-highest .h-8.items-center.justify-between {
+  display: none !important;
+}
+
+/* Kick'in origCard'daki rozet bölümü — JS ile gizlenir (ke-hide-badges class eklenir) */
+html.ke-active #user-identity.ke-has-card .ke-uc-banner-wrap ~ .bg-surface-highest .ke-hide-badges {
+  display: none !important;
+}
+
+html.ke-active #ke-user-ext {
+  width: 100%;
+  background: rgba(255,255,255,0.032);
+  border-radius: 0 0 12px 12px;
+  padding: 14px 16px 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+}
+html.ke-active #ke-user-ext::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse 65% 55% at 85% 15%, rgba(83,252,24,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 50% at 10% 80%, rgba(100,50,255,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 45% 40% at 60% 60%, rgba(0,140,255,0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+html.ke-active .ke-ue-badges {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+html.ke-active .ke-ue-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+html.ke-active .ke-ue-badge-verified {
+  background: rgba(83,252,24,0.10);
+  color: #53FC18;
+  border: 1px solid rgba(83,252,24,0.24);
+  box-shadow: 0 0 12px rgba(83,252,24,0.10), inset 0 1px 0 rgba(83,252,24,0.10);
+}
+html.ke-active .ke-ue-badge-affiliate {
+  background: rgba(168,85,247,0.10);
+  color: #c084fc;
+  border: 1px solid rgba(168,85,247,0.24);
+  box-shadow: 0 0 12px rgba(168,85,247,0.10), inset 0 1px 0 rgba(168,85,247,0.10);
+}
+
+html.ke-active .ke-ue-personal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+html.ke-active #ke-user-ext .ke-ue-stat {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,0.044);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 5px 10px;
+  border-radius: 8px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+html.ke-active #ke-user-ext .ke-ue-stat-icon {
+  color: rgba(83,252,24,0.45);
+  display: flex;
+}
+html.ke-active #ke-user-ext .ke-ue-stat-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+html.ke-active #ke-user-ext .ke-ue-stat-lbl {
+  font-size: 11px;
+  color: rgba(255,255,255,0.40);
+  line-height: 1;
+}
+
+html.ke-active .ke-uc-bio-section {
+  background: rgba(255,255,255,0.044);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 10px 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+html.ke-active .ke-uc-bio-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+}
+html.ke-active .ke-uc-bio-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.30);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+html.ke-active #ke-user-ext .ke-uc-bio {
+  font-size: 12px;
+  color: rgba(255,255,255,0.62);
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+html.ke-active .ke-ue-socials-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+html.ke-active .ke-ue-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+html.ke-active .ke-ue-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  color: rgba(255,255,255,0.50);
+  text-decoration: none;
+  background: rgba(255,255,255,0.044);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+html.ke-active .ke-ue-social::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+  pointer-events: none;
+}
+html.ke-active .ke-ue-social:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+}
+html.ke-active .ke-ue-social-x:hover {
+  background: rgba(255,255,255,0.12);
+}
+html.ke-active .ke-ue-social-ig:hover {
+  background: rgba(225,48,108,0.18);
+  color: #E1306C;
+  border-color: rgba(225,48,108,0.30);
+  box-shadow: 0 0 10px rgba(225,48,108,0.12);
+}
+html.ke-active .ke-ue-social-yt:hover {
+  background: rgba(255,0,0,0.15);
+  color: #FF4444;
+  border-color: rgba(255,0,0,0.28);
+  box-shadow: 0 0 10px rgba(255,0,0,0.10);
+}
+html.ke-active .ke-ue-social-dc:hover {
+  background: rgba(88,101,242,0.18);
+  color: #5865F2;
+  border-color: rgba(88,101,242,0.30);
+  box-shadow: 0 0 10px rgba(88,101,242,0.12);
+}
+html.ke-active .ke-ue-social-tt:hover {
+  background: rgba(0,242,234,0.14);
+  color: #00f2ea;
+  border-color: rgba(0,242,234,0.28);
+  box-shadow: 0 0 10px rgba(0,242,234,0.10);
+}
+
+html.ke-active .ke-uc-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  margin: 2px 0;
+}
+
+html.ke-active .ke-uc-channel-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+html.ke-active .ke-uc-channel-title {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.30);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1px;
+}
+html.ke-active .ke-uc-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  background: rgba(255,255,255,0.044);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  transition: background 0.18s, border-color 0.18s;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+html.ke-active .ke-uc-info-row:hover {
+  background: rgba(255,255,255,0.076);
+  border-color: rgba(255,255,255,0.12);
+}
+html.ke-active .ke-uc-info-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.38);
+  font-weight: 500;
+}
+html.ke-active .ke-uc-info-label svg {
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+html.ke-active .ke-uc-info-value {
+  font-size: 12px;
+  color: #fff;
+  font-weight: 600;
+}
+
+html.ke-active .ke-uc-badges-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  background: rgba(255,255,255,0.044);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+html.ke-active .ke-uc-badge-imgs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+html.ke-active .ke-uc-badge-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+html.ke-active .ke-uc-badge-icon svg {
+  width: 20px;
+  height: 20px;
+}
+html.ke-active .ke-uc-badge-icon img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  border-radius: 3px;
+}
+
+html.ke-active .ke-ue-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 4px;
+}
+html.ke-active .ke-ue-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.09);
+  background: rgba(255,255,255,0.044);
+  color: rgba(255,255,255,0.70);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+html.ke-active .ke-ue-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+  pointer-events: none;
+}
+html.ke-active .ke-ue-btn:hover {
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(255,255,255,0.16);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+html.ke-active .ke-ue-btn:active {
+  transform: translateY(0);
+}
+html.ke-active .ke-ue-btn.ke-ue-btn-fav {
+  background: rgba(241,196,15,0.08);
+  color: #f1c40f;
+  border-color: rgba(241,196,15,0.22);
+  box-shadow: inset 0 1px 0 rgba(241,196,15,0.08);
+}
+html.ke-active .ke-ue-btn.ke-ue-btn-fav:hover {
+  background: rgba(241,196,15,0.18);
+  border-color: rgba(241,196,15,0.38);
+  box-shadow: 0 0 16px rgba(241,196,15,0.14), 0 4px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(241,196,15,0.12);
+}
+html.ke-active .ke-ue-btn.ke-ue-btn-danger {
+  background: rgba(248,81,73,0.08);
+  color: #f85149;
+  border-color: rgba(248,81,73,0.22);
+  box-shadow: inset 0 1px 0 rgba(248,81,73,0.08);
+}
+html.ke-active .ke-ue-btn.ke-ue-btn-danger:hover {
+  background: rgba(248,81,73,0.18);
+  border-color: rgba(248,81,73,0.38);
+  box-shadow: 0 0 16px rgba(248,81,73,0.14), 0 4px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(248,81,73,0.12);
+}
+
+html.ke-active #ke-user-ext::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 8px; right: 8px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(83,252,24,0.14), transparent);
+  border-radius: 0 0 8px 8px;
+}
+
+/* Favori kullanıcı — chat mesaj highlight (--ke-fav-color: kullanıcının kendi Kick rengi) */
+html.ke-active .ke-fav-msg .break-words {
+  border-left: 2px solid var(--ke-fav-color, rgba(241,196,15,0.60)) !important;
+  background: color-mix(in srgb, var(--ke-fav-color, #f1c40f) 6%, transparent) !important;
+  padding-left: 8px !important;
+}
+html.ke-active .ke-fav-msg button[title][data-prevent-expand] {
+  font-weight: 700 !important;
+}
+
+html.ke-active.ke-theater [class*="right-column"],
+html.ke-active.ke-theater [class*="sidebar"],
+html.ke-active.ke-theater [class*="chat-container"] {
+  display: none !important;
+}
+
+html.ke-active.ke-theater [class*="video-player"],
+html.ke-active.ke-theater [class*="player-container"] {
+  width: 100% !important;
+  max-width: 100% !important;
+}
